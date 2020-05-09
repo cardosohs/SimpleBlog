@@ -12,14 +12,28 @@
       <div class="navbar-header">
         <p class="navbar-brand">DAILY JOURNAL</p>
       </div>
-        <ul class="nav navbar-nav navbar-right">
-          <!-- 6 -->
-          <li id="home"><a href="/">HOME</a></li>
-          <li id="about"><a href="/about">ABOUT US</a></li>
-          <li id="contact"><a href="/contact">CONTACT US</a></li>
-        </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <!-- 6 -->
+        <li id="home"><a href="/">HOME</a></li>
+        <li id="about"><a href="/about">ABOUT US</a></li>
+        <li id="contact"><a href="/contact">CONTACT US</a></li>
+      </ul>
     </div>
   </nav>
 
-  <body>
-    <div class="container">
+  <div class="weather-api">
+    <img class="open-weather-logo" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FOpenWeatherMap&psig=AOvVaw3z80RwkG__iru4LMeXQ2RV&ust=1589132338624000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNiN9cCpp-kCFQAAAAAdAAAAABAD" />
+    <form class="form-inline" action="/" method="post">
+      <div class="form-group mx-sm-3 mb-2">
+        <input type="text" name="cityName" class="form-control" id="cityInput" placeholder="City Name" required>
+      </div>
+      <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+    <spam class="city-name"><%= weatherData.city %></spam>
+    <spam class="description">Descricao: <%= weatherData.dscpt %></spam>
+    <spam class="temp">Temperatura em <%= weatherData.city %>: <%= weatherData.temp %> ºC</spam>
+    <img class="icon" src="http://openweathermap.org/img/wn/<%= weatherData.icon %>@2x.png">
+  </div>
+
+<body>
+  <div class="container">

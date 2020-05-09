@@ -1,4 +1,6 @@
+require("dotenv").config();
 const express = require("express");
+const https = require("https");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
@@ -35,41 +37,82 @@ const postSchema = new mongoose.Schema({
   }
 });
 
+
 const Post = mongoose.model('Post', postSchema);
 
+
+let weatherData = {
+  city: "No city selected",
+  temp: "-",
+  dscpt: "-",
+  icon: "-"
+}
 
 app.get("/", (req, res) => {
   Post.find(
     {},//filter: find ALL
     (err, foundPosts) => {
       if (!err) {
-        res.render("home", {
-          homeDescription: homeStartingContent,
-          posts: foundPosts
-        });
-      } else {
+          res.render("home", {
+            homeDescription: homeStartingContent,
+            posts: foundPosts,
+            weatherData: weatherData
+          });
+      }else {
         console.log(err);
       }
   });
 });
 
+app.post("/", (req, res) => {
+  //o nome da cidade é dado pelo cliente e este parametro segue na url da API
+  //para o servidor externo (OpenWeatherMaps)
+  const city = req.body.cityName;
+  const apiKey = process.env.API_KEY;
+  const units = "metric";
+  const url = "https://api.openweathermap.org/data/2.5/weather?q=" + city +
+  "&appid=" + apiKey + "&units=" + units;
+
+  //get request feito por este servidor ao OpenWeatherMaps
+  https.get(url, (response) => {
+
+    //tratamento da resposta do OpenWeatherMaps
+    response.on("data", (data) => {
+      //ficheiro JSON recebido é traduzido (parsed) para notação JSON
+      const parsedWeatherData = JSON.parse(data);
+      //atributos relevantes dos dados recebidos armazenados
+      weatherData = {
+        city: city,
+        temp: parsedWeatherData.main.temp,
+        dscpt: parsedWeatherData.weather[0].description,
+        icon: parsedWeatherData.weather[0].icon
+      }
+    });
+  });
+  res.redirect("back");
+});
+
 
 app.get("/contact", (req, res) => {
   res.render("contact", {
-    contactDescription: contactContent
+    contactDescription: contactContent,
+    weatherData: weatherData
   });
 });
 
 
 app.get("/about", (req, res) => {
   res.render("about", {
-    aboutDescription: aboutContent
+    aboutDescription: aboutContent,
+    weatherData: weatherData
   });
 });
 
 
 app.get("/compose", (req, res) => {
-  res.render("compose");
+  res.render("compose", {
+    weatherData: weatherData
+  });
 });
 
 
@@ -83,7 +126,8 @@ app.get("/posts/:postID", (req, res) => {
       if (foundPost) {
         res.render("post", {
           postTitle: foundPost.title,
-          postBody: foundPost.body
+          postBody: foundPost.body,
+          weatherData: weatherData
         });
       } else {
         console.log("error: post not found!");
@@ -104,7 +148,6 @@ app.post("/compose", (req, res) => {
   });
 
   post.save();
-
   res.redirect("/");
 })
 
