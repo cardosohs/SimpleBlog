@@ -64,7 +64,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
+app.post("/input", (req, res) => {
   //o nome da cidade é dado pelo cliente e este parametro segue na url da API
   //para o servidor externo (OpenWeatherMaps)
   const city = req.body.cityName;

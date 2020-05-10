@@ -22,8 +22,8 @@
   </nav>
 
   <div class="weather-api">
-    <img class="open-weather-logo" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FOpenWeatherMap&psig=AOvVaw3z80RwkG__iru4LMeXQ2RV&ust=1589132338624000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNiN9cCpp-kCFQAAAAAdAAAAABAD" />
-    <form class="form-inline" action="/" method="post">
+    <img class="logo" src="images/OpenWeather-Logo.jpg" alt="open-weather-logo">
+    <form class="form-inline" action="/input" method="post">
       <div class="form-group mx-sm-3 mb-2">
         <input type="text" name="cityName" class="form-control" id="cityInput" placeholder="City Name" required>
       </div>
@@ -33,7 +33,27 @@
     <spam class="description">Descricao: <%= weatherData.dscpt %></spam>
     <spam class="temp">Temperatura em <%= weatherData.city %>: <%= weatherData.temp %> ºC</spam>
     <img class="icon" src="http://openweathermap.org/img/wn/<%= weatherData.icon %>@2x.png">
+    <!-- <div id="openweathermap-widget-19"></div> -->
   </div>
+
+  <!-- <script>
+    window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];
+    window.myWidgetParam.push({
+      id: 19,
+      cityid: '2643743',
+      appid: 'a03ba9067e1dec20b30ea9428c692cca',
+      units: 'metric',
+      containerid: 'openweathermap-widget-19',
+    });
+    (function() {
+      var script = document.createElement('script');
+      script.async = true;
+      script.charset = "utf-8";
+      script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(script, s);
+    })();
+  </script> -->
 
 <body>
   <div class="container">
