@@ -80,7 +80,7 @@ app.post("/input", (req, res) => {
     response.on("data", (data) => {
       //ficheiro JSON recebido é traduzido (parsed) para notação JSON
       const parsedWeatherData = JSON.parse(data);
-      //atributos relevantes dos dados recebidos armazenados
+      //atributos relevantes dos dados recebidos sao armazenados
       weatherData = {
         city: city,
         temp: parsedWeatherData.main.temp,
